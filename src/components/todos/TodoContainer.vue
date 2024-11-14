@@ -1,6 +1,7 @@
 <template>
   <div id="todo-cnt">
-    <h1>Todo List</h1>
+    <h1>Todo List</h1> 
+    <input type="date" v-model="date" @input="fetchTodosByDate" />
     <div id="header">
       <input 
         type="text" 
@@ -19,7 +20,7 @@
     <transition-group name="fade" tag="ul">
       <li 
         v-for="(todo, index) in todos" 
-        :key="todo.id"
+        :key="index"
         class="todo-item"
       >
         <div class="list-cnt">
@@ -41,19 +42,21 @@
 </template>
 
 <script>
+
 export default {
   name: 'TodoContainer',
   data() {
     return {
       newTodo: '',
-      todos: JSON.parse(localStorage.getItem('todos') || '[]'),
+      todos: [],
+      date: new Date().toISOString().split('T')[0], 
     };
   },
   methods: {
     addTodo() {
       const trimmedTodo = this.newTodo.trim();
       if (trimmedTodo) {
-        this.todos.push({ id: Date.now(), text: trimmedTodo, completed: false });
+        this.todos.push({ created_at: Date.now(), text: trimmedTodo, completed: false });
         this.newTodo = '';
         this.updateLocalStorage();
       }
@@ -67,8 +70,20 @@ export default {
       this.updateLocalStorage();
     },
     updateLocalStorage() {
-      localStorage.setItem('todos', JSON.stringify(this.todos));
+      localStorage.setItem(this.date, JSON.stringify(this.todos)); 
     },
+    fetchTodosByDate() {
+      const todosForDate = localStorage.getItem(this.date);
+      this.todos = todosForDate ? JSON.parse(todosForDate) : [];
+    },
+  },
+  watch: {
+    date() {
+      this.fetchTodosByDate();
+    },
+  },
+  mounted() {
+    this.fetchTodosByDate();
   },
 };
 </script>
@@ -184,6 +199,20 @@ input[type="checkbox"] {
   opacity: 0;
   transform: translateX(-30px);
   
+}
+
+.date {
+  background-color: #00AA84;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.calendar-cnt {
+  padding-bottom: 20px;
 }
 
 </style>
