@@ -151,7 +151,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+ 
 }
 
 .list-cnt {
@@ -168,12 +168,22 @@ ul {
 
 input[type="checkbox"] {
   margin-right: 10px;
+  cursor: pointer;
+
+}
+
+input[type="date"] {
+  padding: 8px;
+  border: 2px solid var(--color-disabled);
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .completed {
   text-decoration: line-through;
   color: var(--color-disabled);
-  transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 .trash-btn {
@@ -186,20 +196,6 @@ input[type="checkbox"] {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s ease, transform 0.3s ease;
-}
-
-.fade-enter {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
-  
-}
 
 .date {
   background-color: #00AA84;
